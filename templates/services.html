@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Services</h2>
+<a href="{{ url_for('add_service') }}" class="btn btn-primary mb-3">Add Service</a>
+
+{% if services %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.id }}</td>
+                <td>{{ service.service_name }}</td>
+                <td>{{ service.service_date }}</td>
+                <td>{{ service.service_time or '' }}</td>
+                <td>{{ service.notes or '' }}</td>
+                <td>
+                    <a href="{{ url_for('view_service_attendance', service_id=service.id) }}" class="btn btn-sm btn-info">View Attendance</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No services recorded.</p>
+{% endif %}
+{% endblock %}

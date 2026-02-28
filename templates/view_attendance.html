@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Attendance for {{ service.service_name }} on {{ service.service_date }}</h2>
+
+{% if attendance %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Check-in Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in attendance %}
+            <tr>
+                <td>{{ a.name }}</td>
+                <td>
+                    {% if a.status == 'Present' %}
+                        <span class="badge bg-success">Present</span>
+                    {% else %}
+                        <span class="badge bg-danger">Absent</span>
+                    {% endif %}
+                </td>
+                <td>{{ a.checkin_time[:16] if a.checkin_time else '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Summary:</strong> {{ present_count }} Present / {{ total }} Total ({{ (present_count/total*100)|round(1) }}%)</p>
+{% else %}
+    <p>No attendance records for this service.</p>
+{% endif %}
+
+<a href="{{ url_for('list_services') }}" class="btn btn-secondary">Back to Services</a>
+{% endblock %}

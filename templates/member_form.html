@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ 'Edit Member' if member else 'Add Member' }}</h2>
+<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">   <!-- important for file upload -->
+    <div class="mb-3">
+        <label for="name" class="form-label">Name *</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ member.name if member else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="phone" name="phone" value="{{ member.phone if member else '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ member.email if member else '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <textarea class="form-control" id="address" name="address" rows="2">{{ member.address if member else '' }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="photo" class="form-label">Photo (optional)</label>
+        <input class="form-control" type="file" id="photo" name="photo" accept="image/*">
+        {% if member and member.photo %}
+            <div class="mt-2">
+                <img src="{{ url_for('static', filename='uploads/' + member.photo) }}" alt="Current photo" style="max-width: 100px;">
+                <span class="text-muted">Current photo</span>
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{{ url_for('list_members') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
